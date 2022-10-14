@@ -36,6 +36,17 @@ export default function Home() {
         }
       }
 
+    //Test to see if two cards are the same kind
+    if (data[0].value===data[1].value) {
+      setReward("Two of a Kind - $10");
+    }
+    if (data[0].value===data[2].value) {
+      setReward("Two of a Kind - $10");
+    }
+    if (data[1].value===data[2].value) {
+      setReward("Two of a Kind - $10");
+    }
+
     //Test all 3 cards are even
     if (data[0].value==="2" || data[0].value==="4" || data[0].value==="6" || data[0].value==="8" || data[0].value==="10") {
       if(data[1].value==="2" || data[1].value==="4" || data[1].value==="6" || data[1].value==="8" || data[1].value==="10") {
@@ -53,8 +64,15 @@ export default function Home() {
         }
         }
       }
+      
+    //Test to see if all cards are the same kind
+    if (data[0].value===data[1].value && data[0].value===data[2].value) {
+      setReward("Three of a Kind - $150");
+    }
 
-    
+
+
+
 
     return setDataa(data);
 
