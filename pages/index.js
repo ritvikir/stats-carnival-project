@@ -1,8 +1,71 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import Head from "next/head";
+import Image from "next/image";
+import { useState } from "react";
+
+import styles from "../styles/Home.module.css";
 
 export default function Home() {
+  const [dataa, setDataa] = useState([]);
+  const [reward, setReward] = useState("");
+
+  const fetchData = async () => {
+    setReward("");
+    const res = await fetch(
+      `https://www.deckofcardsapi.com/api/deck/new/draw/?count=3`
+    );
+    const data1 = await res.json();
+    const data = data1.cards;
+    console.log(data);
+
+
+    //Test all 3 cards are same suit - red
+    if (data[0].suit==="CLUBS" || data[0].suit==="SPADES") {
+      if(data[1].suit==="CLUBS" || data[1].suit==="SPADES") {
+        if(data[2].suit==="CLUBS" || data[2].suit==="SPADES") {
+          setReward("All Black - $8");
+        }
+        }
+      }
+
+    //Test all 3 cards are same suit - red
+    if (data[0].suit==="HEARTS" || data[0].suit==="DIAMONDS") {
+      if(data[1].suit==="HEARTS" || data[1].suit==="DIAMONDS") {
+        if(data[2].suit==="HEARTS" || data[2].suit==="DIAMONDS") {
+          setReward("All Red - $8");
+        }
+        }
+      }
+
+    //Test all 3 cards are even
+    if (data[0].value==="2" || data[0].value==="4" || data[0].value==="6" || data[0].value==="8" || data[0].value==="10") {
+      if(data[1].value==="2" || data[1].value==="4" || data[1].value==="6" || data[1].value==="8" || data[1].value==="10") {
+        if(data[2].value==="2" || data[2].value==="4" || data[2].value==="6" || data[2].value==="8" || data[2].value==="10") {
+          setReward("All Even - $20");
+        }
+        }
+      }
+    
+    //Test all 3 cards are odd
+    if (data[0].value==="3" || data[0].value==="5" || data[0].value==="7" || data[0].value==="9" || data[0].value==="ACE") {
+      if(data[1].value==="3" || data[1].value==="5" || data[1].value==="7" || data[1].value==="9" || data[1].value==="ACE") {
+        if(data[2].value==="3" || data[2].value==="5" || data[2].value==="7" || data[2].value==="9" || data[2].value==="ACE") {
+          setReward("All Odd - $20");
+        }
+        }
+      }
+
+    
+
+    return setDataa(data);
+
+    }
+ 
+
+  const submitEntry = (event) => {
+    event.preventDefault();
+    fetchData();
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -11,59 +74,22 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+      <div className="flex justify-center items-center">
+        {dataa.map((item) => {
+          return <img className="mt-20 my-8 mx-10 " src={item.image} alt="card" />;
+        })}
+      </div>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+      <div className="flex justify-center">
+        <button
+          className="mt-10 my-8 px-5 py-1 font-semibold text-white bg-cyan-600 rounded-full "
+          onClick={submitEntry}
         >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
+          Draw Cards
+        </button>
+      </div>
+      <p class="text-4xl mt-10 text-cyan-600 font-bold text-center">{reward}</p>
+
     </div>
-  )
+  );
 }
