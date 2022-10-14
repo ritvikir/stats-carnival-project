@@ -75,8 +75,8 @@ export default function Home() {
       </Head>
 
       <div className="flex justify-center items-center">
-        {dataa.map((item) => {
-          return <img className="mt-20 my-8 mx-10 " src={item.image} alt="card" />;
+        {dataa.map((item, i) => {
+          return <img key={i} className="mt-20 my-8 mx-10 " src={item.image} alt="card" />;
         })}
       </div>
 
@@ -88,7 +88,7 @@ export default function Home() {
           Draw Cards
         </button>
       </div>
-      <p class="text-4xl mt-10 text-cyan-600 font-bold text-center">{reward}</p>
+      <p className="text-4xl mt-10 text-cyan-600 font-bold text-center">{reward}</p>
 
     </div>
   );
