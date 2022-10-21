@@ -1,6 +1,3 @@
-$10/Round
+**Stats Carnival Project**
 
-```bash
-npm i 
-npm run dev
-```
+An exciting gambling card game!
